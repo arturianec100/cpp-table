@@ -21,4 +21,13 @@ QTextStream &operator <<(QTextStream &stream, const StringTable &table)
         stream << "\n  }";
     }
     stream << "};\n";
+
+    return stream;
+}
+
+QTextStream &operator <<(QTextStream &stream, const std::string_view &strv)
+{
+    for (auto ch : strv) {
+        stream << ch;
+    }
 }

@@ -7,7 +7,7 @@
 
 struct ParseResult {
     StringTable table;
-    std::string output;
+    QString output;
     bool ok = false;
     size_t tableBeginIdx = 0;
     size_t tableEndIdx = 0;

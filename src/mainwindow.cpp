@@ -103,7 +103,10 @@ void MainWindow::openFile(const QString &fileName)
 
             model->setTable(result.table);
         } else {
-            showError(QString::fromStdString(result.output));
+            QString errorStr = result.output.size() == 0
+                    ? tr("Table not found in file %1").arg(fileName)
+                    : tr("File parsing error:\n%1").arg(result.output);
+            showError(errorStr);
         }
     } else {
         showError(tr("Can't read file %1").arg(fileName));

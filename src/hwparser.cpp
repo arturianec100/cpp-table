@@ -1,6 +1,7 @@
 #include "hwparser.h"
 
 #include "macro.h"
+#include "overloads.h"
 
 #include <cctype>
 #include <sstream>
@@ -12,7 +13,7 @@ HWParser::HWParser(iter_type first_, iter_type last_):
 ParseResult HWParser::parse()
 {
     ParseResult result;
-    stringstream out(result.output);
+    QTextStream out(&result.output);
     ctx = {};
     ctx.resPtr = &result;
     ctx.outPtr = &out;
@@ -288,7 +289,7 @@ bool HWParser::readString(QString &str)
             (*ctx.outPtr) << "Incorrect escaping syntax, found '"
                           << (*current) << "' right after \\\n";
             return false;
-        }//if current char is right after \\
+        }//if current char is right after '\\'
 
         stream << (*current);
         step();
@@ -506,11 +507,11 @@ void HWParser::skipToEndOfQuotes()
 char HWParser::octal2char(std::string_view str) const
 {
     size_t pos = 0;
-    return static_cast<char>(std::stoi(string(str), &pos, 8));
+    return static_cast<char>(std::stoi(std::string(str), &pos, 8));
 }
 
 char HWParser::hex2char(std::string_view str) const
 {
     size_t pos = 0;
-    return static_cast<char>(std::stoi(string(str), &pos, 16));
+    return static_cast<char>(std::stoi(std::string(str), &pos, 16));
 }

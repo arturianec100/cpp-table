@@ -31,32 +31,33 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="73"/>
+        <location filename="../src/mainwindow.cpp" line="82"/>
         <source>All files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="78"/>
+        <location filename="../src/mainwindow.cpp" line="80"/>
         <source>Save to File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="80"/>
-        <source>Headers (*.h *.hpp *.hxx);;Sources (*.c *.cc *.cpp *.cxx)</source>
+        <location filename="../src/mainwindow.cpp" line="129"/>
+        <source>Can&apos;t open file %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="88"/>
+        <location filename="../src/mainwindow.cpp" line="133"/>
+        <source>Can&apos;t save to file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="89"/>
         <source>File %1 not found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="107"/>
+        <location filename="../src/mainwindow.cpp" line="109"/>
         <source>Can&apos;t read file %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="120"/>
-        <source>Can&apos;t write to file %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

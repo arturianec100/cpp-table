@@ -6,8 +6,6 @@
 #include <string_view>
 #include <map>
 
-using namespace std;
-
 class HWParser
 {
 public:
@@ -28,11 +26,11 @@ protected:
 
     inline bool readString(QString &str);
 
-    inline string_view peek(size_t count) const;
-    inline string_view consume(size_t count);
-    inline string_view token() const;
-    inline string_view peekNOctal(size_t n) const;
-    inline string_view peekNHex(size_t n) const;
+    inline std::string_view peek(size_t count) const;
+    inline std::string_view consume(size_t count);
+    inline std::string_view token() const;
+    inline std::string_view peekNOctal(size_t n) const;
+    inline std::string_view peekNHex(size_t n) const;
     inline void step(bool skipQuoted = false);
     inline void moveBy(size_t chars);
 
@@ -41,8 +39,8 @@ protected:
     inline bool isTokenChar(char c) const;
     inline bool isOctal(char c) const;
     inline bool isHex(char c) const;
-    inline bool isIdentifier(string_view str) const;
-    inline bool isInteger(string_view str) const;
+    inline bool isIdentifier(std::string_view str) const;
+    inline bool isInteger(std::string_view str) const;
 
     inline bool isSpecialState() const;
 
@@ -57,8 +55,8 @@ protected:
     inline void skipTo(char c);
     inline void skipToEndOfQuotes();
 
-    inline char octal2char(string_view str) const;
-    inline char hex2char(string_view str) const;
+    inline char octal2char(std::string_view str) const;
+    inline char hex2char(std::string_view str) const;
     //Types
     struct Context {
         enum TableStage { NoTable = -1, Type, Identifier, Sizing,
@@ -70,19 +68,19 @@ protected:
         bool isSingleQuotes = false;
         bool isDoubleQuotes = false;
         ParseResult *resPtr = nullptr;
-        stringstream *outPtr = nullptr;
+        QTextStream *outPtr = nullptr;
         TableStage stage = NoTable;
     };
     //Static data
-    inline static const vector<string> allowedKeyWordsModifiers {
+    inline static const std::vector<std::string> allowedKeyWordsModifiers {
         {"const"}, {"static"}, {"volatile"}
     };
-    inline static const string otherTokenChars {"_"};
-    inline static const string octalChars {"01234567"};
-    inline static const string hexChars {"0123456789aAbBcCdDeEfF"};
-    inline static const string symbolsToEscape {"\'\"\?\\\0\a\b\e\f\n\r\t\v"};
-    inline static const string symbolsWithSpecialEscapeMeaning {"'\\?0abfnrtv"};
-    inline static const map<char, std::string> escapedMapping {
+    inline static const std::string otherTokenChars {"_"};
+    inline static const std::string octalChars {"01234567"};
+    inline static const std::string hexChars {"0123456789aAbBcCdDeEfF"};
+    inline static const std::string symbolsToEscape {"\'\"\?\\\0\a\b\e\f\n\r\t\v"};
+    inline static const std::string symbolsWithSpecialEscapeMeaning {"'\\?0abfnrtv"};
+    inline static const std::map<char, std::string> escapedMapping {
         {'\'', "\\\'"}, {'\\', "\\\\"}, {'?', "\\?"}, {'0', "\\0"},
         {'a', "\\a"}, {'b', "\\b"}, {'e', "\\e"}, {'f', "\\f"},
         {'n', "\\n"}, {'r', "\\r"}, {'t', "\\t"}, {'v', "\\v"}

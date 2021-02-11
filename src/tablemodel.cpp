@@ -4,21 +4,25 @@
 
 QModelIndex TableModel::index(int row, int column, const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return createIndex(row, column);
 }
 
 int TableModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return table_.size();
 }
 
 int TableModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return table_.size() > 0 ? table_[0].size() : 0;
 }
 
 QModelIndex TableModel::parent(const QModelIndex &index) const
 {
+    Q_UNUSED(index)
     return QModelIndex();
 }
 
@@ -45,6 +49,7 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
     if (role != Qt::DisplayRole) {
         return QVariant();
     }
+    Q_UNUSED(orientation)
     /*
     if (orientation == Qt::Horizontal) {
         return QString::number(section);
@@ -75,6 +80,7 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
 bool TableModel::insertRows(int row, int count, const QModelIndex &parent)
 {
+    Q_UNUSED(parent)
     beginInsertRows(QModelIndex(), row, row+count-1);
 
     StringRow rowToCopy(maxCols(), "");
@@ -86,6 +92,7 @@ bool TableModel::insertRows(int row, int count, const QModelIndex &parent)
 
 bool TableModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+    Q_UNUSED(parent)
     beginRemoveRows(QModelIndex(), row, row+count-1);
 
     table_.remove(row, count);
@@ -96,6 +103,7 @@ bool TableModel::removeRows(int row, int count, const QModelIndex &parent)
 
 bool TableModel::insertColumns(int column, int count, const QModelIndex &parent)
 {
+    Q_UNUSED(parent)
     beginInsertColumns(QModelIndex(), column, column+count-1);
 
     for (auto &row: table_) {
@@ -108,6 +116,7 @@ bool TableModel::insertColumns(int column, int count, const QModelIndex &parent)
 
 bool TableModel::removeColumns(int column, int count, const QModelIndex &parent)
 {
+    Q_UNUSED(parent)
     beginRemoveColumns(QModelIndex(), column, column+count-1);
 
     for (auto &row: table_) {
