@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "parseresult.h"
+
 #include <QtCore>
 #include <QtWidgets>
 
@@ -15,6 +17,22 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void showError(const QString &message);
+
+public slots:
+    void openFile();
+    void saveToFile();
+
+protected:
+    ParseResult parse(const QString &source);
+
+    void setupActions();
+
+    QString selectFileToOpen();
+    QString selectFileToSave();
+    void openFile(const QString &fileName);
+    void saveToFile(const QString &fileName, const QString &content);
 
 private:
     Ui::MainWindow *ui;
