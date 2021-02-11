@@ -13,11 +13,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
 
-set(SOURCES_DIR src)
-set(TS_FILES_DIR translations)
+list(APPEND TS_FILES
+    translations/cpp-table_ru_RU.ts
+)
 
-include(${SOURCES_DIR}/files_list.cmake)
-include(${TS_FILES_DIR}/files_list.cmake)
+list(APPEND SOURCES
+    src/parseresult.h
+    src/hwparser.h
+    src/hwparser.cpp
+    src/parser.hpp
+    src/overloads.h
+    src/overloads.cpp
+    src/mainwindow.ui
+    src/mainwindow.h
+    src/mainwindow.cpp
+    src/main.cpp
+)
 
 add_executable(cpp-table
     ${SOURCES}
