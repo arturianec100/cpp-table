@@ -2,6 +2,11 @@
 
 #include <algorithm>
 
+QModelIndex TableModel::index(int row, int column, const QModelIndex &parent) const
+{
+    return createIndex(row, column);
+}
+
 int TableModel::rowCount(const QModelIndex &parent) const
 {
     return table_.size();
@@ -9,7 +14,12 @@ int TableModel::rowCount(const QModelIndex &parent) const
 
 int TableModel::columnCount(const QModelIndex &parent) const
 {
-    return table_[0].size();
+    return table_.size() > 0 ? table_[0].size() : 0;
+}
+
+QModelIndex TableModel::parent(const QModelIndex &index) const
+{
+    return QModelIndex();
 }
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
@@ -35,11 +45,14 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
     if (role != Qt::DisplayRole) {
         return QVariant();
     }
+    /*
     if (orientation == Qt::Horizontal) {
         return QString::number(section);
-    } /*else {
+    } else {
         return QStringLiteral("Row %1").arg(section);
-    }*/
+    }
+    */
+    return QString::number(section);
 }
 
 Qt::ItemFlags TableModel::flags(const QModelIndex &index) const
@@ -105,34 +118,36 @@ bool TableModel::removeColumns(int column, int count, const QModelIndex &parent)
     return true;
 }
 
-StringTable TableModel::table() const
+const StringTable &TableModel::table() const
 {
     return table_;
 }
 
-void TableModel::setTable(const StringTable table)
+void TableModel::setTable(const StringTable &table)
 {
+    beginResetModel();
     table_ = table;
     resizeToMaxColumnCount();
+    endResetModel();
 }
 
-size_t TableModel::maxCols() const
+int TableModel::maxCols() const
 {
-    size_t maxCols = table_.size() > 0 ? table_[0].size() : 0;
+    int cols = table_.size() > 0 ? table_[0].size() : 0;
     for (auto &row : table_) {
-        maxCols = std::max(maxCols, row.size());
+        cols = std::max(cols, row.size());
     }
-    return maxCols;
+    return cols;
 }
 
 void TableModel::resizeToMaxColumnCount()
 {
-    size_t maxCols = maxCols();
-    if (maxCols == 0) {
+    int cols = maxCols();
+    if (cols == 0) {
         return;
     }
     for (auto &row : table_) {
-        while (row.size() < maxCols) {
+        while (row.size() < cols) {
             row.append("");
         }
     }

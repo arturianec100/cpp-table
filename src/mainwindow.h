@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "parseresult.h"
+#include "tablemodel.h"
 
 #include <QtCore>
 #include <QtWidgets>
@@ -32,9 +33,13 @@ protected:
     QString selectFileToOpen();
     QString selectFileToSave();
     void openFile(const QString &fileName);
-    void saveToFile(const QString &fileName, const QString &content);
+    void saveToFile(const QString &fileName, const StringTable &table);
 
 private:
     Ui::MainWindow *ui;
+    TableModel *model;
+    //To save table to the same file in the same position
+    size_t beginTablePos = 0;
+    size_t endTablePos = 0;
 };
 #endif // MAINWINDOW_H

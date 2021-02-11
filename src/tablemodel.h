@@ -10,11 +10,13 @@ class TableModel : public QAbstractItemModel
     Q_OBJECT
 public:
     TableModel(QObject *parent = nullptr)
-        : QAbstractListModel(parent) {}
+        : QAbstractItemModel(parent) {}
     ~TableModel() {}
     //Read-only api
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
@@ -28,11 +30,11 @@ public:
     bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
     bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
 
-    StringTable table() const;
-    void setTable(const StringTable table);
+    const StringTable &table() const;
+    void setTable(const StringTable &table);
 
 protected:
-    size_t maxCols() const;
+    int maxCols() const;
     void resizeToMaxColumnCount();
 
 private:

@@ -2,12 +2,18 @@
 #include "./ui_mainwindow.h"
 
 #include "parser.hpp"
+#include "overloads.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , model(new TableModel(this))
 {
     ui->setupUi(this);
+
+    ui->tableView->setModel(model);
+
+    setupActions();
 }
 
 MainWindow::~MainWindow()
@@ -28,13 +34,13 @@ void MainWindow::openFile()
 
 void MainWindow::saveToFile()
 {
-    saveToFile(selectFileToSave(), ui->fileContentEdit->toPlainText());
+    saveToFile(selectFileToSave(), model->table());
 }
 
 ParseResult MainWindow::parse(const QString &source)
 {
     if (source.size() == 0) {
-        return;
+        return {};
     }
     const char* begin = qPrintable(source);
     const char* end = begin + source.size();
@@ -82,15 +88,20 @@ void MainWindow::openFile(const QString &fileName)
         showError(tr("File %1 not found.").arg(fileName));
         return;
     }
-    QString content;
-    ui->fileContentEdit->clear();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream stream(&file);
-        stream >> content;
+        QString content = stream.readAll();
         if (content.back() != '\n') {
             content.append('\n');
         }
-        ui->fileContentEdit->appendPlainText(content);
+        ParseResult result = parse(content);
+        if (result.ok) {
+            beginTablePos = result.tableBeginIdx;
+            endTablePos = result.tableEndIdx;
+            model->setTable(result.table);
+        } else {
+            showError(QString::fromStdString(result.output));
+        }
     } else {
         showError(tr("Can't read file %1").arg(fileName));
         return;
@@ -98,12 +109,12 @@ void MainWindow::openFile(const QString &fileName)
     file.close();
 }
 
-void MainWindow::saveToFile(const QString &fileName, const QString &content)
+void MainWindow::saveToFile(const QString &fileName, const StringTable &table)
 {
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)){
         QTextStream stream(&file);
-        stream << content;
+        stream << table;
     } else {
         showError(tr("Can't write to file %1").arg(fileName));
         return;

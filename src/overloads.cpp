@@ -1,3 +1,4 @@
+#include "overloads.h"
 
 QTextStream &operator <<(QTextStream &stream, const StringTable &table)
 {
