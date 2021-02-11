@@ -16,22 +16,31 @@ find_package(Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
 list(APPEND TS_FILES
     translations/cpp-table_ru_RU.ts
 )
-
-list(APPEND SOURCES
+list(APPEND HEADERS
+    src/typedefs.h
+    src/macro.h
     src/parseresult.h
     src/hwparser.h
-    src/hwparser.cpp
     src/parser.hpp
     src/overloads.h
-    src/overloads.cpp
-    src/mainwindow.ui
+    src/tablemodel.h
     src/mainwindow.h
+)
+list(APPEND SOURCES
+    src/hwparser.cpp
+    src/overloads.cpp
+    src/tablemodel.cpp
     src/mainwindow.cpp
     src/main.cpp
 )
+list(APPEND UI_FILES
+    src/mainwindow.ui
+)
 
 add_executable(cpp-table
+    ${HEADERS}
     ${SOURCES}
+    ${UI_FILES}
     ${TS_FILES}
 )
 

@@ -52,16 +52,12 @@ void MainWindow::setupActions()
                            tr("Open File"));
     QAction *saveFile = ui->toolBar->addAction(style()->standardIcon(QStyle::SP_DriveFDIcon),
                            tr("Save File"));
-    QAction *parse = ui->toolBar->addAction(style()->standardIcon(QStyle::SP_ArrowRight),
-                           tr("Parse"));
 
     openFile->setShortcut(QKeySequence::Open);
     saveFile->setShortcut(QKeySequence::Save);
-    parse->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Enter));
     //Ignore argument from signal
     connect(openFile, SIGNAL(triggered(bool)), this, SLOT(openFile()));
     connect(saveFile, SIGNAL(triggered(bool)), this, SLOT(saveToFile()));
-    connect(parse, SIGNAL(triggered(bool)), this, SLOT(parse()));
 }
 
 QString MainWindow::selectFileToOpen()
