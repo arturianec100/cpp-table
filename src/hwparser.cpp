@@ -100,7 +100,6 @@ bool HWParser::readType()
         (*ctx.outPtr) << "Expected \"char\" type"
                " in beginning of expression, got: " << token() << '\n';
     }
-    ctx.resPtr->tableBeginIdx = pos();
     moveBy(charTypeStr.size());
     skip();
     if ((*current) != '*') {
@@ -172,6 +171,7 @@ bool HWParser::readTable()
         (*ctx.outPtr) << "Expected '{' after identifier or sizing, got: " << token() << '\n';
         return false;
     }
+    ctx.resPtr->tableBeginIdx = pos();
     step();
     skip();
     if ((*current) != '{') {
@@ -228,8 +228,8 @@ bool HWParser::readTable()
         (*ctx.outPtr) << "Expected ';' after expression, got: " << token() << '\n';
         return false;
     }
-    ctx.resPtr->tableEndIdx = pos();
     step();
+    ctx.resPtr->tableEndIdx = pos();
     skip();
     return true;
 }

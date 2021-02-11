@@ -71,14 +71,15 @@ QString MainWindow::selectFileToOpen()
     return QFileDialog::getOpenFileName(this, tr("Open File"),
                                         QDir::currentPath(),
                                         tr("All files (*.*)"));
+    /*tr("Headers (*.h *.hpp *.hxx);;"
+       "Sources (*.c *.cc *.cpp *.cxx)")*/
 }
 
 QString MainWindow::selectFileToSave()
 {
     return QFileDialog::getSaveFileName(this, tr("Save to File"),
                                         QDir::currentPath(),
-                                        tr("Headers (*.h *.hpp *.hxx);;"
-                                           "Sources (*.c *.cc *.cpp *.cxx)"));
+                                        tr("All files (*.*)"));
 }
 
 void MainWindow::openFile(const QString &fileName)
@@ -98,6 +99,8 @@ void MainWindow::openFile(const QString &fileName)
         if (result.ok) {
             beginTablePos = result.tableBeginIdx;
             endTablePos = result.tableEndIdx;
+            lastLoadedFileName = fileName;
+
             model->setTable(result.table);
         } else {
             showError(QString::fromStdString(result.output));
@@ -111,13 +114,24 @@ void MainWindow::openFile(const QString &fileName)
 
 void MainWindow::saveToFile(const QString &fileName, const StringTable &table)
 {
-    QFile file(fileName);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)){
-        QTextStream stream(&file);
-        stream << table;
+    QFile outFile(fileName);
+    QFile inFile(lastLoadedFileName);
+    if (outFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+        if (inFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream outStream(&outFile);
+            QTextStream inStream(&inFile);
+
+            outStream << inStream.read(beginTablePos) << table;
+            if (inStream.seek(endTablePos)) {
+                outStream << inStream.readAll();
+            }
+        } else {
+            showError(tr("Can't open file %1").arg(lastLoadedFileName));
+            return;
+        }
     } else {
-        showError(tr("Can't write to file %1").arg(fileName));
+        showError(tr("Can't save to file %1").arg(fileName));
         return;
     }
-    file.close();
+    outFile.close();
 }

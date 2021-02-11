@@ -41,5 +41,6 @@ private:
     //To save table to the same file in the same position
     size_t beginTablePos = 0;
     size_t endTablePos = 0;
+    QString lastLoadedFileName;
 };
 #endif // MAINWINDOW_H
