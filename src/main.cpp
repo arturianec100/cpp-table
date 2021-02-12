@@ -4,8 +4,11 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
+    QTranslator translator;
+    translator.load(QString("cpp-table_") + QLocale::system().name());
+    app.installTranslator(&translator);
     MainWindow w;
     w.show();
-    return a.exec();
+    return app.exec();
 }

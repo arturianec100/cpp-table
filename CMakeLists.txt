@@ -22,7 +22,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 find_package(Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
 
 list(APPEND TS_FILES
-    translations/cpp-table_ru_RU.ts
+    translations/cpp-table_ru_UA.ts
 )
 list(APPEND HEADERS
     src/typedefs.h
