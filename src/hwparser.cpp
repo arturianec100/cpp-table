@@ -99,7 +99,7 @@ bool HWParser::readType()
     static const std::string_view charTypeStr = "char";
     if ((isSpecialState()) || (peek(charTypeStr.size()) != charTypeStr)) {
         (*ctx.outPtr) << "Expected \"char\" type"
-               " in beginning of expression, got: " << token() << '\n';
+               " in beginning of expression\n";
     }
     moveBy(charTypeStr.size());
     skip();
