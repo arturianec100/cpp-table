@@ -32,16 +32,19 @@ list(APPEND HEADERS
     src/parser.hpp
     src/overloads.h
     src/tablemodel.h
+    src/tabletools.h
     src/mainwindow.h
 )
 list(APPEND SOURCES
     src/hwparser.cpp
     src/overloads.cpp
     src/tablemodel.cpp
+    src/tabletools.cpp
     src/mainwindow.cpp
     src/main.cpp
 )
 list(APPEND UI_FILES
+    src/tabletools.ui
     src/mainwindow.ui
 )
 

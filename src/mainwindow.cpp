@@ -5,15 +5,18 @@
 #include "overloads.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-    , model(new TableModel(this))
+    : QMainWindow(parent),
+      ui(new Ui::MainWindow),
+      dock(new QDockWidget(tr("Table Tools"), this)),
+      model(new TableModel(this)),
+      tools(new TableTools(model, dock))
 {
     ui->setupUi(this);
 
-    ui->tableView->setModel(model);
-
+    setupFont();
     setupActions();
+    setupTableView();
+    setupTableTools();
 }
 
 MainWindow::~MainWindow()
@@ -52,6 +55,13 @@ ParseResult MainWindow::parse(const QString &source)
     return result;
 }
 
+void MainWindow::setupFont()
+{
+    QFont font = dock->font();
+    font.setPointSize(14);
+    dock->setFont(font);
+}
+
 void MainWindow::setupActions()
 {
     QAction *openFile = ui->toolBar->addAction(style()->standardIcon(QStyle::SP_FileIcon),
@@ -64,6 +74,29 @@ void MainWindow::setupActions()
     //Ignore argument from signal
     connect(openFile, SIGNAL(triggered(bool)), this, SLOT(openFile()));
     connect(saveFile, SIGNAL(triggered(bool)), this, SLOT(saveToFile()));
+}
+
+void MainWindow::setupTableView()
+{
+    ui->tableView->setModel(model);
+
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+}
+
+void MainWindow::setupTableTools()
+{
+    tools->setView(ui->tableView);
+
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dock->setFeatures(dock->features() & ~QDockWidget::DockWidgetClosable);
+    dock->setWidget(tools);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+    //Show after loading table
+    dock->hide();
 }
 
 QString MainWindow::selectFileToOpen()
@@ -102,6 +135,7 @@ void MainWindow::openFile(const QString &fileName)
             lastLoadedFileName = fileName;
 
             model->setTable(result.table);
+            dock->show();
         } else {
             QString errorStr = result.output.size() == 0
                     ? tr("Table not found in file %1").arg(fileName)

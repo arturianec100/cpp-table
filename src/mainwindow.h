@@ -3,6 +3,7 @@
 
 #include "parseresult.h"
 #include "tablemodel.h"
+#include "tabletools.h"
 
 #include <QtCore>
 #include <QtWidgets>
@@ -19,16 +20,19 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
     void showError(const QString &message);
 
-public slots:
     void openFile();
     void saveToFile();
 
 protected:
     ParseResult parse(const QString &source);
 
+    void setupFont();
     void setupActions();
+    void setupTableView();
+    void setupTableTools();
 
     QString selectFileToOpen();
     QString selectFileToSave();
@@ -37,7 +41,10 @@ protected:
 
 private:
     Ui::MainWindow *ui;
+    //Children
+    QDockWidget *dock;
     TableModel *model;
+    TableTools *tools;
     //To save table to the same file in the same position
     size_t beginTablePos = 0;
     size_t endTablePos = 0;

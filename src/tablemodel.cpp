@@ -37,11 +37,13 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     if (index.column() >= columnCount()) {
         return QVariant();
     }
+    if (role == Qt::TextAlignmentRole) {
+        return Qt::AlignCenter;
+    }
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         return table_[index.row()][index.column()];
-    } else {
-        return QVariant();
     }
+    return QVariant();
 }
 
 QVariant TableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -57,7 +59,7 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
         return QStringLiteral("Row %1").arg(section);
     }
     */
-    return QString::number(section);
+    return QString::number(section + 1);
 }
 
 Qt::ItemFlags TableModel::flags(const QModelIndex &index) const
