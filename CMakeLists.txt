@@ -27,17 +27,19 @@ list(APPEND TS_FILES
 list(APPEND HEADERS
     src/typedefs.h
     src/macro.h
+    src/utils.h
+    src/overloads.h
     src/parseresult.h
     src/hwparser.h
     src/parser.hpp
-    src/overloads.h
     src/tablemodel.h
     src/tabletools.h
     src/mainwindow.h
 )
 list(APPEND SOURCES
-    src/hwparser.cpp
+    src/utils.cpp
     src/overloads.cpp
+    src/hwparser.cpp
     src/tablemodel.cpp
     src/tabletools.cpp
     src/mainwindow.cpp

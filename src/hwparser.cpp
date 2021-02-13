@@ -239,6 +239,7 @@ bool HWParser::readString(QString &str)
 {
     QTextStream stream(&str);
     step();
+    read_quotes:
     while ((!isEnd()) &&
            !(((*current) == '"') && (*(current - 1) != '\\'))
            ) {
@@ -295,6 +296,11 @@ bool HWParser::readString(QString &str)
         step();
     }//end of loop
     step();
+    skip();
+    if ((*current) == '"') {
+        step();
+        goto read_quotes;
+    }
     return true;
 }
 

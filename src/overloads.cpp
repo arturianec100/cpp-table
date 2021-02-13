@@ -1,5 +1,7 @@
 #include "overloads.h"
 
+#include "utils.h"
+
 QTextStream &operator <<(QTextStream &stream, const StringTable &table)
 {
     bool rowComma = false;
@@ -16,7 +18,7 @@ QTextStream &operator <<(QTextStream &stream, const StringTable &table)
                 stream << ",\n";
             }
             cellComma = true;
-            stream << "    \"" << cell << "\"";
+            stream << "    \"" << escapedString(cell) << "\"";
         }
         stream << "\n  }";
     }
@@ -30,4 +32,5 @@ QTextStream &operator <<(QTextStream &stream, const std::string_view &strv)
     for (auto ch : strv) {
         stream << ch;
     }
+    return stream;
 }
