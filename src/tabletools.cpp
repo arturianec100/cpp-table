@@ -17,13 +17,13 @@ TableTools::TableTools(TableModel *tableModel, QWidget *parent) :
     connect(ui->rowBtn4, SIGNAL(clicked(bool)),
             this, SLOT(addRowBottom()));
 
-    connect(ui->clmBtn1, SIGNAL(clicked(bool)),
+    connect(ui->colBtn1, SIGNAL(clicked(bool)),
             this, SLOT(removeSelectedColumn()));
-    connect(ui->clmBtn2, SIGNAL(clicked(bool)),
+    connect(ui->colBtn2, SIGNAL(clicked(bool)),
             this, SLOT(addColumnNearSelected()));
-    connect(ui->clmBtn3, SIGNAL(clicked(bool)),
+    connect(ui->colBtn3, SIGNAL(clicked(bool)),
             this, SLOT(addColumnLeft()));
-    connect(ui->clmBtn4, SIGNAL(clicked(bool)),
+    connect(ui->colBtn4, SIGNAL(clicked(bool)),
             this, SLOT(addColumnRight()));
 }
 
@@ -31,7 +31,7 @@ TableTools::~TableTools()
 {
     delete ui;
 }
-
+/*
 void TableTools::showError(const QString &message)
 {
     QMainWindow *mainWindow = nullptr;
@@ -43,7 +43,7 @@ void TableTools::showError(const QString &message)
         }
     }
 }
-
+*/
 QTableView *TableTools::view() const
 {
     return view_;

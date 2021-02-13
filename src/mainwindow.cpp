@@ -64,7 +64,7 @@ void MainWindow::setupFont()
 
 void MainWindow::setupActions()
 {
-    QAction *openFile = ui->toolBar->addAction(style()->standardIcon(QStyle::SP_FileIcon),
+    QAction *openFile = ui->toolBar->addAction(style()->standardIcon(QStyle::SP_DirIcon),
                            tr("Open File"));
     QAction *saveFile = ui->toolBar->addAction(style()->standardIcon(QStyle::SP_DriveFDIcon),
                            tr("Save File"));

@@ -17,7 +17,7 @@ public:
     explicit TableTools(TableModel *tableModel, QWidget *parent = nullptr);
     ~TableTools();
 
-    void showError(const QString &message);
+    //void showError(const QString &message);
 
     QTableView *view() const;
     void setView(QTableView *view);

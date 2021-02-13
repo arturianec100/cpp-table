@@ -89,28 +89,28 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="clmBtn1">
+    <widget class="QPushButton" name="colBtn1">
      <property name="text">
       <string>Remove Selected</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="clmBtn2">
+    <widget class="QPushButton" name="colBtn2">
      <property name="text">
       <string>Add Here</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="clmBtn3">
+    <widget class="QPushButton" name="colBtn3">
      <property name="text">
       <string>Add Left</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="clmBtn4">
+    <widget class="QPushButton" name="colBtn4">
      <property name="text">
       <string>Add Right</string>
      </property>
