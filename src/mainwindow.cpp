@@ -40,7 +40,7 @@ void MainWindow::saveToFile()
     saveToFile(selectFileToSave(), model->table());
 }
 
-ParseResult MainWindow::parse(const QString &source)
+std::unique_ptr<ParseResult> MainWindow::parse(const QString &source)
 {
     if (source.size() == 0) {
         return {};
@@ -48,7 +48,7 @@ ParseResult MainWindow::parse(const QString &source)
     const char* begin = qPrintable(source);
     const char* end = begin + source.size();
 
-    ParseResult result = parse_source(begin, end);
+    std::unique_ptr<ParseResult> result = parse_source(begin, end);
 
     //if not empty show error dialog
     //QString output = QString::fromStdString(result.output);
@@ -128,18 +128,18 @@ void MainWindow::openFile(const QString &fileName)
         if (content.back() != '\n') {
             content.append('\n');
         }
-        ParseResult result = parse(content);
-        if (result.ok) {
-            beginTablePos = result.tableBeginIdx;
-            endTablePos = result.tableEndIdx;
+        std::unique_ptr<ParseResult> result = parse(content);
+        if (result->ok) {
+            beginTablePos = result->tableBeginIdx;
+            endTablePos = result->tableEndIdx;
             lastLoadedFileName = fileName;
 
-            model->setTable(result.table);
+            model->setTable(result->table);
             dock->show();
         } else {
-            QString errorStr = result.output.size() == 0
+            QString errorStr = result->output.size() == 0
                     ? tr("Table not found in file %1").arg(fileName)
-                    : tr("File parsing error:\n%1").arg(result.output);
+                    : tr("File parsing error:\n%1").arg(result->output);
             showError(errorStr);
         }
     } else {

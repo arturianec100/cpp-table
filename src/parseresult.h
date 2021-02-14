@@ -5,6 +5,8 @@
 
 #include <QtCore>
 
+#include <memory>
+
 struct ParseResult {
     StringTable table;
     QString output;

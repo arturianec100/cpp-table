@@ -4,7 +4,7 @@
 #include "parseresult.h"
 #include "hwparser.h"
 
-ParseResult parse_source(const char* text, const char* end) {
+std::unique_ptr<ParseResult> parse_source(const char* text, const char* end) {
     HWParser parser(text, end);
     return parser.parse();
 }

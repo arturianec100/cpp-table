@@ -27,7 +27,7 @@ public slots:
     void saveToFile();
 
 protected:
-    ParseResult parse(const QString &source);
+    std::unique_ptr<ParseResult> parse(const QString &source);
 
     void setupFont();
     void setupActions();

@@ -10,12 +10,12 @@
 HWParser::HWParser(iter_type first_, iter_type last_):
     first(first_), last(last_), current(first_) {}
 
-ParseResult HWParser::parse()
+std::unique_ptr<ParseResult> HWParser::parse()
 {
-    ParseResult result;
-    QTextStream out(&result.output);
+    auto result = std::make_unique<ParseResult>();
+    QTextStream out(&result->output);
     ctx = {};
-    ctx.resPtr = &result;
+    ctx.resPtr = result.get();
     ctx.outPtr = &out;
 
     while (ctx.shouldContinue) {
@@ -70,7 +70,7 @@ ParseResult HWParser::parse()
             if (!readTable()) {
                 ctx.shouldContinue = false;
             } else {
-                result.ok = true;
+                result->ok = true;
                 ctx.stage = Context::Done;
             }
             break;//switch
@@ -86,10 +86,25 @@ ParseResult HWParser::parse()
 bool HWParser::readLeftAssignment()
 {
     auto &modifiers = allowedKeyWordsModifiers;
+    skip_other_expressions:
+    while ((token() != "char") && std::find(modifiers.begin(), modifiers.end(),
+                                            token()) == modifiers.end()) {
+        //Preprocessor directives
+        if ((*current) == '#') {
+            skipTo('\n');
+        } else {
+            skipTo(';');
+        }
+        step(true);
+        skip();
+    }
     while (std::find(modifiers.begin(), modifiers.end(),
                      token()) != modifiers.end()) {
         moveBy(token().size());
         skip();
+    }
+    if (token() != "char") {
+        goto skip_other_expressions;
     }
     return true;
 }

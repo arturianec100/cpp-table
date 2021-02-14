@@ -13,7 +13,7 @@ public:
 
     HWParser(iter_type first_, iter_type last_);
     //Api
-    ParseResult parse();
+    std::unique_ptr<ParseResult> parse();
 
 protected:
     //Inner api
