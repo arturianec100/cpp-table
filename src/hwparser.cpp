@@ -87,6 +87,9 @@ bool HWParser::readLeftAssignment()
 {
     auto &modifiers = allowedKeyWordsModifiers;
     skip_other_expressions:
+    if (isEnd()) {
+        return false;
+    }
     while ((token() != "char") && std::find(modifiers.begin(), modifiers.end(),
                                             token()) == modifiers.end()) {
         //Preprocessor directives
